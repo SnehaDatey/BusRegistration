@@ -1,0 +1,227 @@
+.app-container {
+    display: flex;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+  }
+  
+  .sidebar {
+    background-color: #2db9ad;
+    width: 200px;
+    color: white;
+    padding: 20px;
+    height: 700px;
+  }
+  
+  .sidebar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    padding: 10px 0;
+    cursor: pointer;
+  }
+  
+  .content {
+    flex-grow: 1;
+    background-color: #f4f5f7;
+    padding: 20px;
+  }
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  header .session {
+    font-size: 1rem;
+  }
+  
+  header .school-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  header .search {
+    display: flex;
+  }
+  
+  header .search input {
+    padding: 5px;
+    font-size: 1rem;
+  }
+  
+  header .search-button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+
+  .bus-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bus-form h2 {
+    margin-bottom: 20px;
+  }
+  
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .form-row label {
+    width: 100%;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-row input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .radio-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .form-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .form-actions button {
+    padding: 10px 20px;
+    
+    /* background-color: #007bff;
+    color: white; */
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .newBtn {
+    border:1px solid #777879;
+    color: rgb(105, 106, 107);
+    background-color: white;
+  }
+
+  .newBtn:hover {
+    background: #777879;
+    color: white;
+  }
+
+  .saveBtn {
+    border:1px solid #2196F3;
+    color: white;
+    background-color: #2196F3;
+  }
+  
+  .saveBtn:hover {
+    background: #2196F3;
+    color: white;
+  }
+
+
+
+  .danger {
+    border: 1px solid #f44336;
+    color: red;
+    background-color: white;
+  }
+  
+  .danger:hover {
+    background: #f44336;
+    color: white;
+  }
+
+  .searchBtn {
+    border:1px solid #777879;
+    color: rgb(105, 106, 107);
+    background-color: white;
+  }
+
+  .searchBtn:hover {
+    background: #777879;
+    color: white;
+  }
+
+
+
+  .modelDiv input{
+    margin-left: -52%;
+  }
+
+  .inUseDiv input{
+    margin-left: -2254%;
+  }
+
+  .engineDiv input{
+    margin-left:-50%
+  }
+
+  .chasisDiv input{
+    margin-left:-50%
+  }
+  .ManufacturerDiv input{
+    margin-left: -50%;
+  }
+
+  .batteryDiv input{
+    margin-left: -50%;
+  }
+
+  .pucDiv input{
+    margin-left: -50%;
+  }
+
+  .dateDiv input{
+    margin-left: -50%;
+  }
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.modal-dialog {
+  margin: 1.75rem auto;
+}
+
+.modal-content {
+  background-color: white; 
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+}
+
+.modal-body img{
+  height: 100px;
+}
+
+.errorClass{
+  color: red;
+}
+
+tbody{
+  cursor: pointer;
+ 
+}
+
