@@ -4,6 +4,7 @@
     align-items: center;
     min-height: 100vh;
     background-color: #f5f7fa;
+    padding: 1rem; /* Add padding to prevent edge clipping on smaller screens */
   }
   
   .login-form {
@@ -58,7 +59,50 @@
   }
   
   .error-message {
-    color: #ff4d4f;
+    color: rgb(170, 11, 11);
     margin-bottom: 1rem;
     font-size: 0.9rem;
   }
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+  /* Remove background color on smaller screens */
+  .login-container {
+    background-color: transparent;
+    min-height: 100vh; /* Full viewport height for vertical centering */
+    padding: 0; /* Remove padding for better centering on small screens */
+  }
+
+  /* Full-width form without padding */
+  .login-form {
+    padding: 1rem;
+    width: 100%;
+    max-width: none; /* Remove max-width for full-screen form */
+    box-shadow: none; /* Remove shadow on mobile */
+  }
+  
+  /* Larger input fields */
+  .form-group input {
+    padding: 15px; /* Increase padding for larger input fields */
+    font-size: 1.2rem; /* Larger font size for better readability */
+  }
+
+  .login-button {
+    padding: 15px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further adjustments for extra-small screens */
+  .login-form {
+    padding: 1rem;
+  }
+
+  /* Make inputs and button even larger on mobile */
+  .form-group input,
+  .login-button {
+    font-size: 1.3rem;
+    padding: 18px;
+  }
+}

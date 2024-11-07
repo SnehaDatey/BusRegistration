@@ -3,8 +3,6 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://3.109.124.47:8000/'; 
 
-//const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/';
-
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -71,12 +69,14 @@ export const fetchBusMasterData = async () => {
 
 // Delete bus data
 export const deleteBus = async (busId) => {
- 
-  const url =  await apiClient.post("/delete_BusMaster_data/" ,{
-    "bus_registration_id": busId
-   });
-  const response = await axios.post(url);
-  return response.data;
+  try {
+    const response = await apiClient.post("/delete_BusMaster_data/", {
+      bus_registration_id: busId
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export default apiClient;

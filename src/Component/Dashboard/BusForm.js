@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { saveOrUpdateBus, fetchBusMasterData, deleteBus } from '../Services/api';
 import './BusForm.css';
 import successImg from '../../Images/check.png'
+import deleteImg from '../../Images/delete.png'
 
 function BusForm() {
   const [showModal, setShowModal] = useState(false);
@@ -14,10 +15,16 @@ function BusForm() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
   const [busId, setBusId] = useState(null);
+  const [errors, setErrors] = useState({}); 
+  const [showDeleteModal, setShowDeleteModal] = useState(false); // New state for delete confirmation modal
+  const [busIdToDelete, setBusIdToDelete] = useState(null); // New state to hold the bus ID to delete
+
+
+
 
   const [busDetails, setBusDetails] = useState({
-    registration_no: "MH31EX5544",
-    registration_year: "2004",
+    registration_no: "",
+    registration_year: "",
     engine_no: "",
     chesis_no: "",
     battery_no: "",
@@ -28,7 +35,7 @@ function BusForm() {
     puc_no: "",
   });
 
-  const [errors, setErrors] = useState({}); // State for error messages
+ 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,9 +70,8 @@ function BusForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validateForm()) {
-      return; // Stop form submission if validation fails
+      return; 
     }
 
     // Prepare the data to be sent
@@ -85,35 +91,40 @@ function BusForm() {
       In_use: "False",
     };
 
-    console.log(payload)
 
+    console.log("Payload Data : ", payload)
     try {
-      const savedData = await saveOrUpdateBus(payload); // Call the save function
-      console.log('Bus details saved:', savedData);
-      // alert(`Bus details ${isEditMode ? 'updated' : 'saved'} successfully!`);
+      const savedData = await saveOrUpdateBus(payload); 
+
+      console.log(payload)
+      console.log('API response:', savedData); 
 
 
       if (isEditMode) {
-        setEditModal(true); // Show the modal on successful save
+        setEditModal(true); 
       }
       else {
-        setShowModal(true); // Show the modal on successful save
+        setShowModal(true); 
       }
 
-      // Optionally, reset the form or redirect
-      setBusDetails({
-        registration_no: "",
-        registration_year: "",
-        engine_no: "",
-        chesis_no: "",
-        battery_no: "",
-        manufacturer: "",
-        model: "",
-        In_use: "false",
-        last_use_date: "",
-        puc_no: "",
-      });
-      setIsEditMode(false); // Reset to save mode
+       // After saving, if the server returns a new bus_registration_id, retain it
+    const updatedBusDetails = {
+      ...busDetails,
+      bus_registration_id: savedData.bus_registration_id || busDetails.bus_registration_id,
+      registration_no: "",
+      registration_year: "",
+      engine_no: "",
+      chesis_no: "",
+      battery_no: "",
+      manufacturer: "",
+      model: "",
+      In_use: "false",
+      last_use_date: "",
+      puc_no: "",
+    };
+
+    setBusDetails(updatedBusDetails); // Update with new ID if returned from the API
+    setIsEditMode(false); // Reset to save mode
     } catch (error) {
       console.error(`Error ${isEditMode ? 'updating' : 'saving'} bus details:`, error);
       alert(`Failed to ${isEditMode ? 'update' : 'save'} bus details. Please try again.`);
@@ -128,11 +139,11 @@ function BusForm() {
       const response = await fetchBusMasterData({
         "school_id": 770
       });
-      console.log(response.bus_data)
+      //console.log(response.bus_data)
       setBusData(response.bus_data);
     } catch (err) {
       setError('Error fetching bus data');
-      console.error('Error:', err);
+      //console.error('Error:', err);
     } finally {
       setLoading(false);
     }
@@ -166,14 +177,18 @@ function BusForm() {
     setEditModal(false);
   };
 
-  // Function to delete a specific bus by ID
-  const handleRowDelete = async (busIdToDelete) => {
-    try {
-      await deleteBus(busIdToDelete); // Call deleteBus API function      
-      console.log(busData);
 
+
+  // New function to handle the delete confirmation modal
+  const confirmDelete = async () => {
+    if (!busIdToDelete) return;
+
+    try {
+      await deleteBus(busIdToDelete);
       alert("Bus deleted successfully!");
-      // Remove the deleted bus from the busData state to update the UI
+      setIsEditMode(false); // Set to save mode
+
+      setBusData((prevData) => prevData.filter((bus) => bus.id !== busIdToDelete));
       setBusDetails({
         registration_no: "",
         registration_year: "",
@@ -182,18 +197,34 @@ function BusForm() {
         battery_no: "",
         manufacturer: "",
         model: "",
-        In_use: "false",
+        In_use: "False",
         last_use_date: "",
         puc_no: "",
       });
-      setBusData(busData.filter((bus) => bus.id !== busIdToDelete));
+      setShowDeleteModal(false);
+    
     } catch (error) {
       console.error("Error deleting bus:", error);
       alert("Failed to delete bus. Please try again.");
     }
   };
 
+  const handleRowDelete = (busId) => {
+    setBusIdToDelete(busId);
+    setShowDeleteModal(true); // Show the delete confirmation modal
+  };
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setBusIdToDelete(null);
+  };
+
+
+
   const hangleNewClick =() =>{
+
+    setIsEditMode(false); // Set to save mode
+
     setBusDetails({
 
       registration_no: "",
@@ -206,35 +237,127 @@ function BusForm() {
       In_use: "False",
       last_use_date: "",
       puc_no: "",
+
     });
+setError(''); // Clear validation error message
+    
   }
 
 
   return (
     <div className="bus-form">
-      <div className="headingRow d-flex justify-content-between mb-4">
-        <h2>Bus Master</h2>
-        <div className="form-actions">
+      {/* <div className="headingRow d-flex justify-content-between flex-wrap">
+        <div className="form-heading">Bus Master</div>
+        <div className="form-actions button-group">
           <button type="button" class="newBtn" onClick={hangleNewClick}><i class="fa-solid fa-pen"></i> New</button>
-          {/* <button type="submit" className="saveBtn" onClick={handleSubmit}><i class="fa-solid fa-plus"></i> Save</button> */}
-          <button type="submit" className="saveBtn" onClick={handleSubmit}>
-            <i className="fa-solid fa-plus"></i> {isEditMode ? "Update" : "Save"}
-          </button>
+          <button type="submit" className="saveBtn" onClick={handleSubmit}><i className="fa-solid fa-plus"></i> {isEditMode ? "Update" : "Save"}</button>
+            <button 
+              type="button" 
+              className={`danger ${!isEditMode ? 'disabled' : ''}`}  // Apply a 'disabled' class if not in edit mode
+              onClick={() => isEditMode ? handleRowDelete(busId) : alert("No bus selected for deletion")}
+              disabled={!isEditMode} // Disable button if not in edit mode
+            >
+              <i className="fa-solid fa-trash"></i> Delete
+            </button>
+ {/* Delete Confirmation Modal */}
+      {/*showDeleteModal && (
+        <div className="modal show " tabIndex="-1" role="dialog" style={{ display: 'block' }}>
+          <div className="modal-dialog" role="document">
+            <div className="modal-content p-3 deleteModal">
+              <div className="modal-body text-center">
+                  <img src={deleteImg} alt="delete" className="delImage" />
+                  <h2 className="delHeading">Are you sure ? </h2>
+                <p className="delPara"> You will not be able to revert this!</p>
+              </div>
+              <div className="text-center">
+                <button type="button" className="btn btn-primary" onClick={confirmDelete}>Yes, Delete it!</button> &nbsp;
+                <button type="button" className="btn btn-danger" onClick={handleCloseDeleteModal}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
-          <button
-            type="button"
-            className="danger"
-            onClick={() => isEditMode ? handleRowDelete(busId) : alert("No bus selected for deletion")}
-          >
-            <i className="fa-solid fa-trash"></i> Delete
-          </button>
+          <button type="button" className="searchBtn" onClick={handleSearchClick}><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+        </div>
+      </div> */}
 
 
-          <button type="button" className="searchBtn" onClick={handleSearchClick}>
-            <i class="fa-solid fa-magnifying-glass"></i> Search
-          </button>
+
+
+
+<div className="headingRow d-flex justify-content-between flex-wrap align-items-center">
+  <div className="form-heading">Bus Master</div>
+
+  <div className="form-actions button-group">
+    {/* New Button */}
+    <button type="button" className="newBtn" onClick={hangleNewClick}>
+      <i className="fa-solid fa-pen"></i> New
+    </button>
+
+    {/* Save/Update Button */}
+    <button
+      type="submit"
+      className="saveBtn"
+      onClick={handleSubmit}
+     
+    >
+      <i className="fa-solid fa-plus"></i> {isEditMode ? "Update" : "Save"}
+    </button>
+
+    {/* Delete Button with conditional disabling */}
+    <button
+      type="button"
+      className={`danger ${!isEditMode ? "disabled" : ""}`}
+      onClick={() => (isEditMode ? handleRowDelete(busId) : alert("No bus selected for deletion"))}
+      disabled={!isEditMode}
+    >
+      <i className="fa-solid fa-trash"></i> Delete
+    </button>
+
+    {/* Search Button */}
+    <button type="button" className="searchBtn" onClick={handleSearchClick}>
+      <i className="fa-solid fa-magnifying-glass"></i> Search
+    </button>
+
+    {/* Delete Confirmation Modal */}
+    {showDeleteModal && (
+      <div className="modal show" tabIndex="-1" role="dialog" style={{ display: "block" }}>
+        <div className="modal-dialog" role="document">
+          <div className="modal-content p-3 deleteModal">
+            <div className="modal-body text-center">
+              <img src={deleteImg} alt="delete confirmation" className="delImage" />
+              <h2 className="delHeading">Are you sure?</h2>
+              <p className="delPara">You will not be able to revert this!</p>
+            </div>
+            <div className="text-center">
+              <button type="button" className="btn btn-primary" onClick={confirmDelete}>
+                Yes, Delete it!
+              </button>
+              <button type="button" className="btn btn-danger" onClick={handleCloseDeleteModal}>
+                Cancel
+              </button>
+            </div>
+          </div>
         </div>
       </div>
+    )}
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       <form onSubmit={handleSubmit}>
         <div className="form-row">
@@ -245,10 +368,11 @@ function BusForm() {
             value={busDetails.registration_no}
             onChange={handleChange}
             placeholder="Registration no"
+            className="registrationNoInput"
           />
 
 
-          <label>Year <span className="mandate">*</span></label>
+          <label className="labelYear">Year <span className="mandate">*</span></label>
           <input
             type="text"
             name="registration_year"
@@ -260,8 +384,8 @@ function BusForm() {
         </div>
 
         <div className="errorClass  d-flex justify-content-center ">
-          <div className="w-50  text-end ps-2">{errors.registration_no && <span className="error">{errors.registration_no}</span>} {/* Error message */}</div>
-          <div className="w-50  text-end ps-2">{errors.registration_year && <span className="error">{errors.registration_year}</span>} {/* Error message */}</div>
+          <div className="w-50 ps-5 text-center ps-2">{errors.registration_no && <span className="error">{errors.registration_no}</span>} {/* Error message */}</div>
+          <div className="w-50  text-start ps-2">{errors.registration_year && <span className="error">{errors.registration_year}</span>} {/* Error message */}</div>
         </div>
 
         <div className="form-row engineDiv">
@@ -322,7 +446,7 @@ function BusForm() {
         <div className="form-row inUseDiv">
           <label>In Use</label>
           <div className="radio-group">
-            <label>
+            <label className="radio-option">
               <input
                 type="radio"
                 name="In_use"
@@ -333,7 +457,7 @@ function BusForm() {
               Yes
             </label>
             &nbsp;
-            <label>
+            <label className="radio-option">
               <input
                 type="radio"
                 name="In_use"
@@ -366,6 +490,13 @@ function BusForm() {
             placeholder="PUC no"
           />
         </div>
+
+
+    <hr />
+        <footer>
+          <div className="left">Copyright © 2023 - 2024</div>
+          <div className="right">For Any Technical Issue Contact us on <i class="fa-solid fa-phone"></i> (+919346730371 <i class="fa-solid fa-envelope"></i> support@vidyamate.in)</div>
+        </footer>
       </form>
 
 
@@ -373,7 +504,7 @@ function BusForm() {
       {showModal && (
         <div className="modal show" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
           <div className="modal-dialog" role="document">
-            <div className="modal-content p-3">
+            <div className="modal-content successModal p-3">
 
               <div className="modal-body text-center">
                 <img src={successImg} alt="check" />
@@ -392,7 +523,7 @@ function BusForm() {
       {EditModal && (
         <div className="modal show" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
           <div className="modal-dialog" role="document">
-            <div className="modal-content p-3">
+            <div className="modal-content successModal p-3">
 
               <div className="modal-body text-center">
                 <img src={successImg} alt="check" />
@@ -413,29 +544,24 @@ function BusForm() {
         <div className="modal show" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
           <div className="modal-dialog modal-lg" role="document">
             <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Search Bus Details</h5>
-                <button type="button" className="close" onClick={() => setShowSearchModal(false)}>
-                  <span>&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
+             
+              <div className="modal-body p-0">
                 {loading && <div>Loading...</div>}
                 {error && <div className="error">{error}</div>}
                 {!loading && !error && (
-                  <div className="table-responsive">
+                  <div className="table-responsive searchTable table-bordered table-sm table-striped">
                     <table className="table table-striped table-hover">
-                      <thead>
-                        <tr>
-                          <th>Registration No</th>
-                          <th>Year</th>
-                          <th>Engine No.</th>
-                          <th>Chesis No</th>
-                          <th>Battery No</th>
-                          <th>Manufacturer</th>
-                          <th>Model</th>
-                          <th>PUC No</th>
-                          <th>Action</th>
+                      <thead className="table-dark">
+                        <tr className="text-center text-nowrap">
+                          <th className="searchThHeading">Registration No</th>
+                          <th className="searchThHeading">Year</th>
+                          <th className="searchThHeading">Engine No.</th>
+                          <th className="searchThHeading">Chesis No</th>
+                          <th className="searchThHeading">Battery No</th>
+                          <th className="searchThHeading">Manufacturer</th>
+                          <th className="searchThHeading">Model</th>
+                          <th className="searchThHeading">PUC No</th>
+                          {/* <th>Action</th> */}
                         </tr>
                       </thead>
                       <tbody >
@@ -444,7 +570,7 @@ function BusForm() {
                           bus.manufacturer.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           bus.model.toLowerCase().includes(searchTerm.toLowerCase())
                         ).map((bus, index) => (
-                          <tr key={index}>
+                          <tr className="searchRow text-center" key={index} onClick={() => handleRowSelect(bus)}>
                             <td >{bus.registration_no}</td>
                             <td>{bus.registration_year}</td>
                             <td>{bus.engine_no}</td>
@@ -453,18 +579,7 @@ function BusForm() {
                             <td>{bus.manufacturer}</td>
                             <td>{bus.model}</td>
                             <td>{bus.puc_no}</td>
-                            <td>
-                              <button
-                                className="btn btn-success btn-sm"
-                                onClick={() => handleRowSelect(bus)}
-                              >
-                                <i class="fa-solid fa-check"></i>
-                              </button>
-                            </td>
-
-                            <td>
-                              <button className="btn-danger" onClick={() => handleRowDelete(bus.id)}><i class="fa-solid fa-trash"></i></button> {/* Delete button */}
-                            </td>
+                          
                           </tr>
                         ))}
                       </tbody>
@@ -475,7 +590,7 @@ function BusForm() {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-secondary"
+                  className="btn btn-primary"
                   onClick={() => setShowSearchModal(false)}
                 >
                   Close

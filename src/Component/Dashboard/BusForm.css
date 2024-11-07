@@ -1,227 +1,509 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+form{
+  border: 1px solid rgb(202, 200, 200);
+    padding: 30px 29px;
+    border-radius: 10px;
+}
+
+.form-heading {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  margin-right: 20px;
+  padding-top: 5px;
+  white-space: nowrap;
+  color: #17a2b8;
+}
+
+/* Container adjustments */
 .app-container {
-    display: flex;
+  display: flex;
     height: 100vh;
     font-family: Arial, sans-serif;
-  }
-  
-  .sidebar {
-    background-color: #2db9ad;
-    width: 200px;
-    color: white;
-    padding: 20px;
-    height: 700px;
-  }
-  
-  .sidebar .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .sidebar ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .sidebar ul li {
-    padding: 10px 0;
-    cursor: pointer;
-  }
-  
-  .content {
-    flex-grow: 1;
-    background-color: #f4f5f7;
-    padding: 20px;
-  }
-  
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  header .session {
-    font-size: 1rem;
-  }
-  
-  header .school-name {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  header .search {
-    display: flex;
-  }
-  
-  header .search input {
-    padding: 5px;
-    font-size: 1rem;
-  }
-  
-  header .search-button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
+}
 
-  .bus-form {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .bus-form h2 {
-    margin-bottom: 20px;
-  }
-  
-  .form-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .form-row label {
-    width: 100%;
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .form-row input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .radio-group {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-  
-  .form-actions {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
-  }
-  
-  .form-actions button {
-    padding: 10px 20px;
-    
-    /* background-color: #007bff;
-    color: white; */
-    cursor: pointer;
-    border-radius: 4px;
-  }
+/* Sidebar styling */
+.sidebar {
+  background-color: #2db9ad;
+  width: 260px;
+  color: white;
+  padding: 20px;
+  height: 700px;
+  position: relative; /* Allows for position adjustments */
+  transition: transform 0.3s ease; /* Smooth transition for sidebar */
+}
 
-  .newBtn {
-    border:1px solid #777879;
-    color: rgb(105, 106, 107);
-    background-color: white;
-  }
-
-  .newBtn:hover {
-    background: #777879;
-    color: white;
-  }
-
-  .saveBtn {
-    border:1px solid #2196F3;
-    color: white;
-    background-color: #2196F3;
-  }
-  
-  .saveBtn:hover {
-    background: #2196F3;
-    color: white;
-  }
+.sidebar.closed {
+  transform: translateX(-100%); /* Hide the sidebar */
+}
 
 
+.sidebar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
 
-  .danger {
-    border: 1px solid #f44336;
-    color: red;
-    background-color: white;
-  }
+.sidebar .logo img{
+  height: 30px;
+  background-color: white;
+  margin-right: 5px;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  padding: 10px 12px;
+  cursor: pointer;
+  width: 109%;
+}
+
+/* Style for the hamburger button */
+.hamburger {
+  display: none; /* Hidden by default */
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #2db9ad; /* Change color to match sidebar */
+}
+
+.close-button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.close-button,
+.hamburger {
+    display: none; /* Initially hide buttons */
+}
+
+/* Content area styling */
+.content {
+  flex-grow: 1;
+  background-color: white;
+  padding: 20px;
+  transition: margin-left 0.3s ease; /* Smooth transition for content when sidebar toggles */
+}
+
+/* Responsive header styling */
+header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+ padding: 0px 20px;
+}
+
+header .session {
+  font-size: 1rem;
+}
+
+header .school-name {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #17a2b8;
+}
+
+header .search {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+header .search input {
+  padding: 5px;
+  font-size: 1rem;
+  width: 270px;
+}
+
+.searchIcon{
+  color: black;
+}
+
+header .search-button {
+  padding: 5px 10px;
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+  margin-left: -45px;
+}
+
+/* Bus form container */
+.bus-form {
+  background-color: white;
+  padding: 0 20px;
+  border-radius: 8px;
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+  max-width: 100%;
+  margin: 20px 0; /* Adds spacing between the bus form and other content */
+}
+
+.bus-form h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Form row adjustments */
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.form-row label {
+  font-size: inherit;
+  line-height: 1.5;
+  margin-bottom: 0;
+  padding-bottom: calc(.375rem + 1px);
+  padding-top: calc(.375rem + 1px);
+  color: #767a7a;
+}
+
+.form-row input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Radio group styling */
+.radio-group {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Space between radio button and label text */
+}
+
+
+/* Button and action styling */
+.form-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the buttons */
+  margin-bottom: 20px; /* Adds spacing below the buttons */
+}
+
+.form-actions button {
+  padding: 5px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
   
-  .danger:hover {
-    background: #f44336;
-    color: white;
-  }
+}
 
-  .searchBtn {
-    border:1px solid #777879;
-    color: rgb(105, 106, 107);
-    background-color: white;
-  }
+.newBtn {
+  border: 1px solid #777879;
+  color: rgb(105, 106, 107);
+  background-color: white;
 
-  .searchBtn:hover {
-    background: #777879;
-    color: white;
-  }
+}
+
+.newBtn:hover {
+  background: #777879;
+  color: white;
+}
+
+.saveBtn {
+  border: 1px solid #2196F3;
+  color: white;
+  background-color: #2196F3;
+}
+
+.saveBtn:hover {
+  background: #2196F3;
+  color: white;
+}
+
+.danger {
+  border: 1px solid #f44336;
+  color: red;
+  background-color: white;
+}
+
+.deleteBtn{
+  border: 1px solid #777879;
+  color: rgb(105, 106, 107);
+  background-color: white;
 
 
+}
 
-  .modelDiv input{
-    margin-left: -52%;
-  }
+.active-menu {
+  background-color: white;
+  color: #2db9ad; /* Adjust as needed */
+}
 
-  .inUseDiv input{
-    margin-left: -2254%;
-  }
+.mandate{
+  color:red;
+}
 
-  .engineDiv input{
-    margin-left:-50%
-  }
+button.danger.disabled {
+  opacity: 0.5; /* Make it appear inactive */
+  cursor: not-allowed; /* Change cursor to indicate it’s disabled */
+}
 
-  .chasisDiv input{
-    margin-left:-50%
-  }
-  .ManufacturerDiv input{
-    margin-left: -50%;
-  }
+.danger:hover {
+  background: #f44336;
+  color: white;
+}
 
-  .batteryDiv input{
-    margin-left: -50%;
-  }
+.searchBtn {
+  border: 1px solid #777879;
+  color: rgb(105, 106, 107);
+  background-color: white;
+}
 
-  .pucDiv input{
-    margin-left: -50%;
-  }
+.searchBtn:hover {
+  background: #777879;
+  color: white;
+}
 
-  .dateDiv input{
-    margin-left: -50%;
-  }
-
+/* Modal Styling */
 .modal {
-  background-color: rgba(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-dialog {
   margin: 1.75rem auto;
+  width: 90%;
 }
 
 .modal-content {
-  background-color: white; 
+  background-color: white;
   border-radius: 0.5rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  width: fit-content;
+}
+.successModal{
+  width: 100%;
 }
 
-.modal-body img{
-  height: 100px;
+.searchThHeading{
+  font-size: 12px;
+  font-weight: 200;
+  color:#9aa0ac;
+  border: 1px solid #dee2e6;
+}
+.modal-body img {
+  height: 80px;
+}
+.delImage{
+  height: 80px;
+}
+.deleteModal{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.delHeading{
+  color: #767a7a;
+  margin-top: 30px;
+}
+.delPara{
+  color: #767a7a;
 }
 
-.errorClass{
-  color: red;
-}
-
-tbody{
+.searchRow{
   cursor: pointer;
- 
 }
+.errorClass {
+  color: rgb(170, 11, 11);
+}
+
+.form-row .labelYear{
+  width: 53px;
+}
+
+.table th, .table td {
+  font-size: 0.9rem; /* Apply smaller font size to table rows */
+}
+
+
+.userIcon{
+  border: 1px solid rgb(189, 185, 185);
+  
+  margin: auto;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: rgb(105, 106, 107);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+
+.dropdown-menu {
+  top: 100%; /* Position below the user icon */
+  right: 0;
+  margin-top: 0.5rem;
+  position: absolute;
+  padding: 0 5px;
+}
+
+.dropdown-menu hr {
+  margin: 0.5rem 0;
+  border-color: #ddd; /* Optional: Change the color */
+}
+
+
+footer{
+  display: flex;
+  justify-content: space-between;
+  color: #767a7a;
+}
+.hamburger-content{
+  background-color: white;
+}
+
+
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+
+/* .hamburger-content{
+  background-color: #17a2b8;
+  padding: 5px;
+  color: white;
+} */
+  .button-group {
+    flex-direction: row; /* Stack buttons vertically on small screens */
+    align-items: start;
+  }
+      .close-button
+        {
+            display: block; /* Show buttons on mobile */
+        }
+
+        .form-actions button {
+          max-width: 150px; /* Limits button width on larger screens */
+        }
+        /* Desktop-specific form row layout */
+        .form-row {
+          flex-direction: row;
+          align-items: center;
+          width: 80%;
+        }
+        .form-row label {
+          width: 20%;
+        }
+        .form-row input {
+          flex: 1; /* Allow input to take the remaining space */
+          padding: 8px; /* Add padding for better touch targets */
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+
+        /* Adjust sidebar layout */
+        .app-container {
+          flex-direction: row;
+        }
+
+        /* Header adjustments */
+        header {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .hamburger {
+          display: block; /* Show hamburger button on small screens */
+      }
+
+        .sidebar {
+          transition: transform 0.3s ease;
+          transform: translateX(0); /* Default to open */
+          }
+
+        .content {
+            padding: 10px; /* Reduce padding for smaller screens */
+        }
+}
+
+
+
+
+@media (max-width: 767px) {
+
+ 
+ 
+  .hamburger-content{
+    background-color: #17a2b8;
+    padding: 5px;
+    color: white;
+  }
+  .button-group {
+    flex-direction: row; /* Stack buttons vertically on small screens */
+    align-items: start;
+  }
+    .close-button{
+        display: block; /* Show buttons on mobile */
+    } .form-actions {
+      flex-direction: column; /* Stack buttons vertically */
+      align-items: center; /* Center the buttons */
+    }
+  
+    .form-actions button {
+      width: 100%; /* Make buttons full width */
+    }
+
+
+    .sidebar.closed {
+        transform: translateX(-260px); /* Hide the sidebar */
+    }
+      
+      .content {
+        padding: 10px;
+      }
+
+      /* Full-width buttons on mobile */
+      .form-actions button {
+        width: 100%;
+      }
+
+      .hamburger {
+        display: block; /* Show hamburger button on small screens */
+    }
+
+    .sidebar {
+        position: absolute; /* Change to absolute */
+        left: 0; /* Position sidebar to the left */
+        top: 0;
+        height: 100%;
+        z-index: 1000; /* Ensure sidebar is above other content */
+    }
+
+  }
+
+
 
