@@ -4,6 +4,7 @@ import { saveOrUpdateBus, fetchBusMasterData, deleteBus } from '../Services/api'
 import './BusForm.css';
 import successImg from '../../Images/check.png'
 import deleteImg from '../../Images/delete.png'
+import Footer from "../Footer/Footer";
 
 function BusForm() {
   const [showModal, setShowModal] = useState(false);
@@ -246,116 +247,65 @@ setError(''); // Clear validation error message
 
   return (
     <div className="bus-form">
-      {/* <div className="headingRow d-flex justify-content-between flex-wrap">
+  
+      <div className="headingRow d-flex justify-content-between flex-wrap align-items-center">
         <div className="form-heading">Bus Master</div>
+
         <div className="form-actions button-group">
-          <button type="button" class="newBtn" onClick={hangleNewClick}><i class="fa-solid fa-pen"></i> New</button>
-          <button type="submit" className="saveBtn" onClick={handleSubmit}><i className="fa-solid fa-plus"></i> {isEditMode ? "Update" : "Save"}</button>
-            <button 
-              type="button" 
-              className={`danger ${!isEditMode ? 'disabled' : ''}`}  // Apply a 'disabled' class if not in edit mode
-              onClick={() => isEditMode ? handleRowDelete(busId) : alert("No bus selected for deletion")}
-              disabled={!isEditMode} // Disable button if not in edit mode
-            >
-              <i className="fa-solid fa-trash"></i> Delete
-            </button>
- {/* Delete Confirmation Modal */}
-      {/*showDeleteModal && (
-        <div className="modal show " tabIndex="-1" role="dialog" style={{ display: 'block' }}>
-          <div className="modal-dialog" role="document">
-            <div className="modal-content p-3 deleteModal">
-              <div className="modal-body text-center">
-                  <img src={deleteImg} alt="delete" className="delImage" />
-                  <h2 className="delHeading">Are you sure ? </h2>
-                <p className="delPara"> You will not be able to revert this!</p>
+          {/* New Button */}
+          <button type="button" className="newBtn" onClick={hangleNewClick}>
+            <i className="fa-solid fa-pen"></i> New
+          </button>
+
+          {/* Save/Update Button */}
+          <button
+            type="submit"
+            className="saveBtn"
+            onClick={handleSubmit}
+          
+          >
+            <i className="fa-solid fa-plus"></i> {isEditMode ? "Update" : "Save"}
+          </button>
+
+          {/* Delete Button with conditional disabling */}
+          <button
+            type="button"
+            className={`danger ${!isEditMode ? "disabled" : ""}`}
+            onClick={() => (isEditMode ? handleRowDelete(busId) : alert("No bus selected for deletion"))}
+            disabled={!isEditMode}
+          >
+            <i className="fa-solid fa-trash"></i> Delete
+          </button>
+
+          {/* Search Button */}
+          <button type="button" className="searchBtn" onClick={handleSearchClick}>
+            <i className="fa-solid fa-magnifying-glass"></i> Search
+          </button>
+
+          {/* Delete Confirmation Modal */}
+          {showDeleteModal && (
+            <div className="modal show" tabIndex="-1" role="dialog" style={{ display: "block" }}>
+              <div className="modal-dialog" role="document">
+                <div className="modal-content p-3 deleteModal">
+                  <div className="modal-body text-center">
+                    <img src={deleteImg} alt="delete confirmation" className="delImage" />
+                    <h2 className="delHeading">Are you sure?</h2>
+                    <p className="delPara">You will not be able to revert this!</p>
+                  </div>
+                  <div className="text-center">
+                    <button type="button" className="btn btn-primary" onClick={confirmDelete}>
+                      Yes, Delete it!
+                    </button>
+                    <button type="button" className="btn btn-danger" onClick={handleCloseDeleteModal}>
+                      Cancel
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div className="text-center">
-                <button type="button" className="btn btn-primary" onClick={confirmDelete}>Yes, Delete it!</button> &nbsp;
-                <button type="button" className="btn btn-danger" onClick={handleCloseDeleteModal}>Cancel</button>
-              </div>
             </div>
-          </div>
-        </div>
-      )}
-
-          <button type="button" className="searchBtn" onClick={handleSearchClick}><i class="fa-solid fa-magnifying-glass"></i> Search</button>
-        </div>
-      </div> */}
-
-
-
-
-
-<div className="headingRow d-flex justify-content-between flex-wrap align-items-center">
-  <div className="form-heading">Bus Master</div>
-
-  <div className="form-actions button-group">
-    {/* New Button */}
-    <button type="button" className="newBtn" onClick={hangleNewClick}>
-      <i className="fa-solid fa-pen"></i> New
-    </button>
-
-    {/* Save/Update Button */}
-    <button
-      type="submit"
-      className="saveBtn"
-      onClick={handleSubmit}
-     
-    >
-      <i className="fa-solid fa-plus"></i> {isEditMode ? "Update" : "Save"}
-    </button>
-
-    {/* Delete Button with conditional disabling */}
-    <button
-      type="button"
-      className={`danger ${!isEditMode ? "disabled" : ""}`}
-      onClick={() => (isEditMode ? handleRowDelete(busId) : alert("No bus selected for deletion"))}
-      disabled={!isEditMode}
-    >
-      <i className="fa-solid fa-trash"></i> Delete
-    </button>
-
-    {/* Search Button */}
-    <button type="button" className="searchBtn" onClick={handleSearchClick}>
-      <i className="fa-solid fa-magnifying-glass"></i> Search
-    </button>
-
-    {/* Delete Confirmation Modal */}
-    {showDeleteModal && (
-      <div className="modal show" tabIndex="-1" role="dialog" style={{ display: "block" }}>
-        <div className="modal-dialog" role="document">
-          <div className="modal-content p-3 deleteModal">
-            <div className="modal-body text-center">
-              <img src={deleteImg} alt="delete confirmation" className="delImage" />
-              <h2 className="delHeading">Are you sure?</h2>
-              <p className="delPara">You will not be able to revert this!</p>
-            </div>
-            <div className="text-center">
-              <button type="button" className="btn btn-primary" onClick={confirmDelete}>
-                Yes, Delete it!
-              </button>
-              <button type="button" className="btn btn-danger" onClick={handleCloseDeleteModal}>
-                Cancel
-              </button>
-            </div>
-          </div>
+          )}
         </div>
       </div>
-    )}
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -493,10 +443,9 @@ setError(''); // Clear validation error message
 
 
     <hr />
-        <footer>
-          <div className="left">Copyright © 2023 - 2024</div>
-          <div className="right">For Any Technical Issue Contact us on <i class="fa-solid fa-phone"></i> (+919346730371 <i class="fa-solid fa-envelope"></i> support@vidyamate.in)</div>
-        </footer>
+     
+
+        <Footer />
       </form>
 
 

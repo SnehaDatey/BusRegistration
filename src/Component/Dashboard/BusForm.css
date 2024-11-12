@@ -10,6 +10,7 @@ form{
     border-radius: 10px;
 }
 
+
 .form-heading {
   font-size: 17px;
   font-weight: 700;
@@ -17,13 +18,14 @@ form{
   margin-right: 20px;
   padding-top: 5px;
   white-space: nowrap;
-  color: #17a2b8;
+  color: rgb(83, 83, 83);
+  /* color: #17a2b8; */
 }
 
 /* Container adjustments */
 .app-container {
   display: flex;
-    height: 100vh;
+    height: 110vh;
     font-family: Arial, sans-serif;
 }
 
@@ -33,7 +35,7 @@ form{
   width: 260px;
   color: white;
   padding: 20px;
-  height: 700px;
+  height: 790px;
   position: relative; /* Allows for position adjustments */
   transition: transform 0.3s ease; /* Smooth transition for sidebar */
 }
@@ -117,6 +119,7 @@ header .school-name {
   font-size: 1rem;
   font-weight: bold;
   color: #17a2b8;
+  /* padding: 0 145px; */
 }
 
 header .search {
@@ -377,11 +380,7 @@ button.danger.disabled {
 }
 
 
-footer{
-  display: flex;
-  justify-content: space-between;
-  color: #767a7a;
-}
+
 .hamburger-content{
   background-color: white;
 }
@@ -396,6 +395,8 @@ footer{
   padding: 5px;
   color: white;
 } */
+
+
   .button-group {
     flex-direction: row; /* Stack buttons vertically on small screens */
     align-items: start;
