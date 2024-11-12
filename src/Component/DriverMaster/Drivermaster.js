@@ -92,6 +92,7 @@ const Drivermaster = () => {
       </div>
 
       <form>
+        <div className='driveForm-container'>
         {/* Driver/Attendant Name */}
         <div className="form-group row">
           <label htmlFor="driverName" className="col-sm-2 col-form-label">
@@ -120,10 +121,15 @@ const Drivermaster = () => {
           {errors.bus && <small className="text-danger">{errors.bus}</small>}
 
           </div>
+
+
+          
           <label htmlFor="type" className="col-sm-2 col-form-label">Type <span className="text-danger">*</span></label>
           <div className="col-sm-4">
-          <select className="form-control"  name="Type" id="Type" value={formData.type}
-              onChange={handleChange}>
+          <select className="form-control"  name="Type" id="Type" 
+          value={formData.type}
+          onChange={handleChange}>
+
                   <option value="0">Select an Option</option>
                   <option value="Driver">Driver</option>
                   <option value="Attendant">Attendant</option>
@@ -214,7 +220,7 @@ const Drivermaster = () => {
             <input type="date" className="form-control" name="RelievingDate"/>
           </div>
         </div>
-
+        </div>  {/*DriveForm-container ends here */}
       </form>
 
       <hr />

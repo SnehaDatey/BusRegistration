@@ -1,7 +1,37 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './RouteConfig.css'
+import Footer from '../Footer/Footer'
 
 const RouteConfig = () => {
+
+  const [routeName, setRouteName] = useState('');
+  const [busNumber, setBusNumber] = useState('');
+  const [errors, setErrors] = useState({});
+
+  const handleSave = () => {
+    // Initialize error object
+    const validationErrors = {};
+
+    // Route Name validation
+    if (!routeName.trim()) {
+      validationErrors.routeName = 'Route Name is required';
+    }
+
+    // Bus Number validation
+    if (!busNumber) {
+      validationErrors.busNumber = 'Bus Number is required';
+    }
+
+    setErrors(validationErrors);
+
+    // If no errors, proceed with form submission logic
+    if (Object.keys(validationErrors).length === 0) {
+      console.log('Form submitted');
+      // Additional form submission logic here
+    }
+  };
+
+
   return (
    
     <div className='RouteConfig-form'>
@@ -15,8 +45,18 @@ const RouteConfig = () => {
             Route Name <span className="text-danger">*</span>
             </label>
             <div className="col-sm-10">
-              <input type="text" className="form-control" id="driverName" placeholder="Enter Route name" />
+              <input type="text" className="form-control" name="RouteName"
+              value={routeName}
+              onChange={(e) => setRouteName(e.target.value)}
+              placeholder="Enter Route name" />
+
             </div>
+
+            {errors.routeName && (
+              <div className="text-danger routeErrClass">{errors.routeName}</div>
+            )}
+
+
           </div>
 
 
@@ -26,13 +66,20 @@ const RouteConfig = () => {
             Bus Number <span className="text-danger">*</span>
             </label>
             <div className="col-sm-10">
-            <select className="form-control"  name="cars" id="cars">
+            <select className="form-control"  name="busNumber" id="busNumber" value={busNumber}
+              onChange={(e) => setBusNumber(e.target.value)}>
                   <option value="volvo">Select an Option</option>
                   <option value="saab">Saab</option>
                   <option value="opel">Opel</option>
                   <option value="audi">Audi</option>
           </select>
+
             </div>
+
+            
+          {errors.busNumber && (
+              <div className="text-danger routeErrClass">{errors.busNumber}</div>
+            )}
           </div>
 
 
@@ -68,7 +115,7 @@ const RouteConfig = () => {
             Attendant
             </label>
             <div className="col-sm-10">
-              <input type="text" disabled className="form-control" id="driverName" />
+              <input type="text" disabled className="form-control" id="attendantName" />
             </div>
           </div>
 
@@ -85,9 +132,11 @@ const RouteConfig = () => {
             </div>
             </div>
           </div>
-
-
+            <button type="button" className='saveBtnRoute btn-primary' onClick={handleSave}> <i class="fa-solid fa-plus"></i> Save</button>
+            <button type="button" class="btn btn-outline-danger"><i class="fa-solid fa-xmark"></i> Clear</button>
       </form>
+<hr />
+      <Footer />
     </div>
   )
 }

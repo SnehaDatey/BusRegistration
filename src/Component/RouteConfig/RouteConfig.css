@@ -18,3 +18,17 @@
     font-weight: 100;
     font-size: 14px;
   }
+
+  .saveBtnRoute {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+  .routeErrClass{
+    padding-left: 100px;
+    width: 44%;
+   
+    text-align: center;
+  }

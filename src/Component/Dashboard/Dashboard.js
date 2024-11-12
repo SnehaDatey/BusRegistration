@@ -163,57 +163,9 @@ function Dashboard() {
           </button>
         )}
         </div>
-        {/* <header>
-          
-          <div className="session d-flex">
-              <label className="mt-2">Session </label>  &nbsp;
-                <select className="form-select">
-                  <option value="23-24">FY2023-24</option>           
-                </select>
-              </div>
-          <div className="school-name">TIRPUDE JUNIOR COLLEGE</div>
-
-          <div className="search">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search by Registration No"
-              className="form-control search-input"
-            />
-            <button className="search-button" onClick={handleSearch}>
-              <i className="fa-solid searchIcon fa-magnifying-glass"></i>
-            </button>
-            <div className="dashboard">
-              <div className="userIcon dropdown" ref={dropdownRef} onClick={toggleMenu}>
-                S
-                <div
-                  className={`dropdown-menu ${isMenuOpen ? "show" : ""}`}
-                  aria-labelledby="dropdownMenuButton"
-                >
-                  <button className="dropdown-item" onClick={() => alert("Profile Clicked")}>
-                    Profile
-                  </button>
-                  <button className="dropdown-item" onClick={() => alert("Change Password Clicked")}>
-                    Change Password
-                  </button>
-                  <button className="dropdown-item" onClick={() => alert("Help Clicked")}>
-                    Need Help?
-                  </button>
-                  <hr />
-                  <button className="dropdown-item" onClick={handleLogout}>
-                    <i className="fa-solid fa-right-from-bracket"></i> Sign Out
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header> */}
-
-
-{/*********************************** */}
+        
 <header>
-  <div className="header-top d-flex justify-content-between align-items-center">
+  <div className="header-top d-flex justify-content-between align-items-center w-50">
     <div className="session d-flex align-items-center">
       <label className="mt-2">Session </label> &nbsp;
       <select className="form-select">
