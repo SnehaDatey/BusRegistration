@@ -6,7 +6,7 @@ import successImg from '../../Images/check.png'
 import deleteImg from '../../Images/delete.png'
 import Footer from "../Footer/Footer";
 
-function BusForm() {
+function BusForm({bus_id}) {
   const [showModal, setShowModal] = useState(false);
   const [EditModal, setEditModal] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
@@ -92,15 +92,8 @@ function BusForm() {
       In_use: "False",
     };
 
-
-    console.log("Payload Data : ", payload)
     try {
       const savedData = await saveOrUpdateBus(payload); 
-
-      console.log(payload)
-      console.log('API response:', savedData); 
-
-
       if (isEditMode) {
         setEditModal(true); 
       }
@@ -167,6 +160,8 @@ function BusForm() {
     setShowSearchModal(false);
     setIsEditMode(true);
     setBusId(bus.id); // Set the ID for updating
+    bus_id(bus.id)
+    
   };
   // Function to close the modal
   const handleCloseModal = () => {
@@ -223,9 +218,9 @@ function BusForm() {
 
 
   const hangleNewClick =() =>{
-
+   
+    alert("New")
     setIsEditMode(false); // Set to save mode
-
     setBusDetails({
 
       registration_no: "",
@@ -240,8 +235,6 @@ function BusForm() {
       puc_no: "",
 
     });
-setError(''); // Clear validation error message
-    
   }
 
 
@@ -261,9 +254,8 @@ setError(''); // Clear validation error message
           <button
             type="submit"
             className="saveBtn"
-            onClick={handleSubmit}
-          
-          >
+            onClick={handleSubmit}>
+              
             <i className="fa-solid fa-plus"></i> {isEditMode ? "Update" : "Save"}
           </button>
 

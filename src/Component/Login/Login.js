@@ -35,7 +35,10 @@ function Login() {
     // svzdvdvzdvzdvzvz
     try {
       const data = await login(email, password);
+      //console.log(data)
       localStorage.setItem('authToken', data.temp_dict.token);
+      localStorage.setItem('school_user', JSON.stringify(data.temp_dict.user_detail));
+
       alert('Login successful!');
       navigate('/dashboard'); // Redirect to dashboard after login
     } catch (err) {
